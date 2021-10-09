@@ -1,2 +1,2 @@
 pylint
-precommit
+pre-commit
