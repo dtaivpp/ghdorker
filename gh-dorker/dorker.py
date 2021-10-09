@@ -1,19 +1,29 @@
-from os import getenv
 import logging
-import GhAPI
 import argparse
+from os import getenv
+from ghapi.all import GhApi
+from ghapi.page import paged
+from helpers import RateLimiter
+from pprint import pprint
 
-gh_token = os.getenv('GH_TOKEN', None)
+from dotenv import load_dotenv
+load_dotenv()
+GH_TOKEN = getenv('GH_TOKEN', None)
 
-def get_client() -> GhAPI:
+
+def get_client() -> GhApi:
   """Return the GitHub Client"""
   return GhApi(token=GH_TOKEN)
 
 
-def search_results(query: str):
-  client = get_client()
-  client.search.code(dork)
-  pass
+def search_results(query: str, client: GhApi):
+  """Yeilds results pages"""
+  search_gen = paged(client.search.code, per_page=100, q=query)
+  rate_limits = RateLimiter(client)
+
+  for results in search_gen:
+    rate_limits.check_safety("search")
+    yield results
 
 
 def file_parse(file_path: str) -> str:
@@ -22,10 +32,17 @@ def file_parse(file_path: str) -> str:
     return [line.strip() for line in f.readlines()]
 
 
-def main(*args, **kwargs):
-  dork_list = file_parse(gh_dorks_file)
-  query_list = [f"{dork} {type}:{scope}" for dork in dork_list]
+def main(dorks, scope, search):
+  dork_list = file_parse(dorks)
+  query_list = [f"{dork} {scope}:{search}" for dork in dork_list]
+  client = get_client()
 
+  for query in query_list:
+    print(query)
+    print("\n")
+    for result in search_results(query, client):
+      print(result)
+      print("\n")
 
 if __name__=='__main__':
   parser = argparse.ArgumentParser(
@@ -46,9 +63,7 @@ if __name__=='__main__':
 
   parser.add_argument(
     '-d',
-    '--dork',
-    dest='gh_dorks_file',
-    action='store',
+    '--dorks',
     default='github-dorks.txt',
     help='Github dorks file. Eg: github-dorks.txt')
 
@@ -61,9 +76,8 @@ if __name__=='__main__':
 
   parser.add_argument(
     'search',
-    required=True,
     help='The GitHub object you would like to search (eg. repo or username)')
 
   args = parser.parse_args()
-
-  main(args)
+  pprint(args)
+  main(dorks=args.dorks, search=args.search, scope=args.scope)
