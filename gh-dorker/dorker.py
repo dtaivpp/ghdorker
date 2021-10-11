@@ -1,9 +1,10 @@
 import logging
+import json
 import argparse
 from os import getenv
 from ghapi.all import GhApi
-from ghapi.page import paged
 from helpers import RateLimiter
+from helpers import paginator
 from pprint import pprint
 
 from dotenv import load_dotenv
@@ -18,7 +19,7 @@ def get_client() -> GhApi:
 
 def search_results(query: str, client: GhApi):
   """Yeilds results pages"""
-  search_gen = paged(client.search.code, per_page=100, q=query)
+  search_gen = paginator(client.search.code, q=query)
   rate_limits = RateLimiter(client)
 
   for results in search_gen:
@@ -26,23 +27,47 @@ def search_results(query: str, client: GhApi):
     yield results
 
 
-def file_parse(file_path: str) -> str:
+def input_file_parse(file_path: str) -> str:
   """Parse the dorkfile"""
   with open(file_path, 'r') as f:
     return [line.strip() for line in f.readlines()]
 
 
-def main(dorks, scope, search):
-  dork_list = file_parse(dorks)
+def output_file(data, filename):
+  """Writes the ouput to a file"""
+  with open(filename, "+w") as f:
+    for entry in data:
+      json.dump(entry, f) 
+      f.write("\n")
+
+
+def format(results):
+  """Formatter for data"""
+  return [
+    {
+      "dork": item["dork"], 
+      "repository": item["repository"]["full_name"], 
+      "path": item["path"], 
+      "score": item["score"]
+    }
+    for item in results
+  ]
+
+
+def main(dorks, scope, search, output_filename):
+  dork_list = input_file_parse(dorks)
   query_list = [f"{dork} {scope}:{search}" for dork in dork_list]
   client = get_client()
 
+  results = []
+
   for query in query_list:
-    print(query)
-    print("\n")
     for result in search_results(query, client):
-      print(result)
-      print("\n")
+      results.extend([{"dork": query, **item} for item in result["items"]])
+  
+  formatted_results = format(results)
+  output_file(formatted_results, output_filename)
+
 
 if __name__=='__main__':
   parser = argparse.ArgumentParser(
@@ -72,12 +97,12 @@ if __name__=='__main__':
     '--outputFile',
     dest='output_filename',
     action='store',
-    help='CSV File to write results to. This overwrites the file provided! Eg: out.csv')
+    default='output.txt',
+    help='File to write results to. This overwrites the file provided!')
 
   parser.add_argument(
     'search',
     help='The GitHub object you would like to search (eg. repo or username)')
 
   args = parser.parse_args()
-  pprint(args)
-  main(dorks=args.dorks, search=args.search, scope=args.scope)
+  main(**vars(args))
