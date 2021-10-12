@@ -138,7 +138,7 @@ dmypy.json
 cython_debug/
 
 # VSCode Files
-launch.json
+.vscode
 
 # Pypi Metadata Files
 pip-wheel-metadata/
