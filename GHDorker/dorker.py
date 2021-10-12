@@ -3,9 +3,8 @@ import json
 import argparse
 from os import getenv
 from ghapi.all import GhApi
-from helpers import RateLimiter
-from helpers import paginator
-from pprint import pprint
+from GHDorker.helpers import RateLimiter
+from GHDorker.helpers import paginator
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -69,7 +68,7 @@ def main(dorks, scope, search, output_filename):
   output_file(formatted_results, output_filename)
 
 
-if __name__=='__main__':
+def cli_entry():
   parser = argparse.ArgumentParser(
     description='Search github for github dorks',
     epilog='Use responsibly, Enjoy pentesting')
@@ -106,3 +105,7 @@ if __name__=='__main__':
 
   args = parser.parse_args()
   main(**vars(args))
+
+
+if __name__=='__main__':
+  cli_entry()
