@@ -30,3 +30,14 @@ We use pylint to check the validity of all our code. For code to be accepted in 
 Pytest is what we use to ensure that it will work as expected after we make changes. If you see missing tests or add functionality please add or update the tests.
 
 Thank you all for contributing and if you have any questions feel free to reach out!
+
+#### Publish to PyPi
+
+More of documentation for me but here is my process before uploading to PyPi
+```bash
+pylint *
+pytest
+python setup.py sdist bdist_wheel
+twine check dist/*
+twine upload dist/*
+```
