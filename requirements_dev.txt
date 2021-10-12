@@ -1,3 +1,6 @@
 pylint
 pre-commit
 pytest
+twine
+setuptools
+wheel

@@ -1,9 +1,9 @@
-import setuptools
+from setuptools import setup
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="ghdorker",
     version='0.1.0',
     author="David Tippett",
@@ -16,7 +16,7 @@ setuptools.setup(
     keywords="GitHub Dorker Python Security Dorking",
     url="https://github.com/dtaivpp/gh-dorker",
     packages=['GHDorker'],
-    install_requires=['ghapi','python-dotenv'],
+    install_requires=['ghapi','python-dotenv', 'wheel'],
     entry_points = {
         'console_scripts': ['ghdorker=GHDorker.dorker:cli_entry'],
     },
@@ -24,7 +24,6 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         'Intended Audience :: Developers',
-        "Operating System :: OS Independent",
-        "DEVELOPMENT STATUS :: 4 - BETA"
+        "Operating System :: OS Independent"
     ],
 )
