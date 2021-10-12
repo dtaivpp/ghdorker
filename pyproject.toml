@@ -1,0 +1,5 @@
+[tool.pylint.format]
+indent-string='  '
+
+[tool.autopep8]
+indent-size=2
