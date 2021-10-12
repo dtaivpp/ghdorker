@@ -2,7 +2,7 @@
 indent-string='  '
 
 [tool.pylint.Master]
-ignore-paths = "test/*"
+ignore-paths = ["test/*","setup.py"]
 
 [tool.autopep8]
 indent-size=2
