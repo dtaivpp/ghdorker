@@ -1,7 +1,7 @@
 [tool.pylint.format]
 indent-string='  '
 
-[tool.pylint.MASTER]
+[tool.pylint]
 ignore-patterns=test/*
 
 [tool.autopep8]
