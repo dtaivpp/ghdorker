@@ -1,5 +1,5 @@
 from GHDorker import helpers
-from GHDorker.dorker import cli_entry, get_client
+from GHDorker.dorker import get_client
 from datetime import datetime
 
 def test_Limit_step():
