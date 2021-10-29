@@ -7,8 +7,8 @@ GH Dorker is picking up where several GitHub dorking tools leave off. Many of th
 1. Install with pip `pip install gh-dorker`
 2. (Optional) you can either export an environment variable named "GH_TOKEN" or include it in a local .env file to ensure you can make the most requests. See ["Creating a personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information on how to do so.
 
-```bash
-usage: ghdorker [-h] [-v] [-s {repo,user}] [-d DORKS] [-o OUTPUT_FILENAME] search
+```
+usage: dorker.py [-h] [-v] [-s {repo,user}] [-d DORKS] [--debug] [-o OUTPUT_FILENAME] search
 
 Search github for github dorks
 
@@ -22,8 +22,9 @@ optional arguments:
                         The type of GitHub object you would like to search
   -d DORKS, --dorks DORKS
                         Github dorks file. Eg: github-dorks.txt
+  --debug               Set this if you would like to see verbose logging.
   -o OUTPUT_FILENAME, --outputFile OUTPUT_FILENAME
-                        File to write results to. This overwrites the file provided!
+                        File to write results to. This overwrites the file provided! Accepts .json or .csv as output file types.
 
 Use responsibly, Enjoy pentesting
 ```
