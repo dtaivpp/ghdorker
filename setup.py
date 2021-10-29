@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ghdorker",
-    version='0.1.0',
+    version='0.2.0',
     author="David Tippett",
     author_email="dtaivpp@gmail.com",
     description="A better GitHub Dorking Utility",
