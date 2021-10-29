@@ -26,7 +26,7 @@ def test_formatter():
     }
   ]
 
-  ouput = dorker.format(results)
+  ouput = dorker.output_format(results)
   assert "dork" in ouput[0]
   assert "repository" in ouput[0]
   assert "path" in ouput[0]
