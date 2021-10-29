@@ -1,7 +1,22 @@
+"""
+Helper functions/classes for ghdorker
+"""
 from datetime import datetime
 from time import sleep
+import logging
+
+logger = logging.getLogger("debug")
 
 class Limit():
+  """A class for handling single endpoint limits
+
+  Parameters:
+  limit (int): Max number of requests
+  remaining (int): Number of remaining allowable calls
+  reset (datetime): When the limit resets
+  used (int): Number of calls used so far
+  resource (str): Name of the endpoint
+  """
   def __init__(self, limit, remaining, reset, used, resource):
     self.limit = limit
     self.remaining = remaining
@@ -10,10 +25,11 @@ class Limit():
     self.resource = resource
 
   def step(self):
+    """Iterate the counters"""
     self.remaining = self.remaining -1
     self.used = self.used + 1
 
-  def __str__(self):
+  def __str__(self) -> str:
     return f"""\n
             limit: {self.limit}
             remaining: {self.remaining}
@@ -32,6 +48,13 @@ class RateLimiter:
     self.client = client
     self.initialize_limits()
 
+
+  def get_rate_limits(self, endpoint: str) -> str:
+    """Get the currently set rate limits for an endpoint"""
+    rate_limit = getattr(self, endpoint)
+    return str(rate_limit)
+
+
   def initialize_limits(self):
     """Populate limits from GitHub
 
@@ -39,9 +62,9 @@ class RateLimiter:
     based on the endpoints in GitHub. This way it can get
     real limits based off your currently used limits.s"""
     limits = self.client.rate_limit.get()
-
     for key, value in limits["resources"].items():
-      setattr(self, key, Limit(**value, resource=key))
+      setattr(self, key, Limit(**value))
+
 
   def check_safety(self, endpoint: str):
     """Checks the safety of making a call to github
@@ -58,7 +81,6 @@ class RateLimiter:
       self.initialize_limits()
 
     rate_limit.step()
-    return
 
 
 def paginator(operation, per_page=30, page=1, **kwargs):
@@ -66,7 +88,7 @@ def paginator(operation, per_page=30, page=1, **kwargs):
 
   Parameters:
   operation (GHapi Function): The fuction you would like to paginate requests from
-  per_page (int): Number of results per page (GitHub may limit some api's to only allow a certain amount)
+  per_page (int): Number of results per page (some endpoints have a 30 max)
   page (int): Page to start on
   kwargs: any other arguments you would like to pass to the funtion (eg. q=Query)
 
