@@ -4,7 +4,7 @@ GH Dorker is picking up where several GitHub dorking tools leave off. Many of th
 
 ## Usage
 
-1. Install with pip `pip install gh-dorker`
+1. Install with pip `pip install ghdorker`
 2. (Optional) you can either export an environment variable named "GH_TOKEN" or include it in a local .env file to ensure you can make the most requests. See ["Creating a personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information on how to do so.
 
 ```
@@ -46,5 +46,5 @@ For how to contribute please see [CONTRIBUTING.md]("CONTRIBUTING.md").
 ## Credits
 Reference points for creating GitDorker and compiling dorks lists
 
-- [@techgaun](https://github.com/techgaun) - This was the primary repo I was looking to for inspiration when writing this dorker
-- [@obheda12](https://github.com/obheda12) - You have one of the cleanest README's ive read in a while and if you couldn't tell has inspired much of this project's structure
+- [@techgaun](https://github.com/techgaun/github-dorks) - This was the primary repo I was looking to for inspiration when writing this dorker
+- [@obheda12](https://github.com/obheda12/GitDorker) - You have one of the cleanest README's ive read in a while and if you couldn't tell has inspired much of this project's structure
