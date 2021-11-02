@@ -1,4 +1,4 @@
-# GH Dorker
+# GitHub Dorker
 
 GH Dorker is picking up where several GitHub dorking tools leave off. Many of these dorkers grow stale and old becuase the code is very tangled and intertwined. GH-Dorker is building on the work of several other dorkers and creating a more modular approach.
 
