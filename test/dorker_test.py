@@ -1,5 +1,6 @@
-from GHDorker import dorker
+from GHDorker import dorker, file_parsing
 from ghapi.all import GhApi
+
 
 def test_get_client():
   client = dorker.get_client()
@@ -9,9 +10,15 @@ def test_get_client():
 def test_file_parse():
   test_query_list = [
     "filename:.dockercfg auth",
-    "extension:md"
+    "extension:md",
+    "filename:.npmrc _auth",
+    "datafilename:.dockercfg auth",
+    "dataextension:pem private",
+    "extension:ppk private",
+    "filename:id_rsa or filename:id_dsa",
+    "extension:sql mysql dumpmysql dump"
   ]
-  querylist = dorker.input_file_parse("gh_dorks_test.txt")
+  querylist = file_parsing.input_file_parse("samples/dorks.txt")
 
   # Check that there are no differences between lists
   diff = set(querylist) ^ set(test_query_list)
