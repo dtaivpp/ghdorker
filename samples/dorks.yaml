@@ -1,0 +1,23 @@
+all:
+  identity:
+    - filename:.dockercfg auth
+    - filename:id_rsa or filename:id_dsa
+    - filename:.npmrc _auth
+    - datafilename:.dockercfg auth
+    - dataextension:pem private
+    - extension:ppk private
+  cloud:
+    aws:
+      - rds.amazonaws.com password
+      - filename:.bash_profile aws
+    google:
+      - extension:json googleusercontent client_secret
+    heroku:
+      - HEROKU_API_KEY language:json
+      - HEROKU_API_KEY language:shell
+  languages:
+    ruby:
+      - filename:master.key path:config
+    python:
+      - filename:settings.py SECRET_KEY
+      - extension:md

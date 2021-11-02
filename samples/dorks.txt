@@ -1,0 +1,8 @@
+filename:.dockercfg auth
+extension:md
+filename:.npmrc _auth
+datafilename:.dockercfg auth
+dataextension:pem private
+extension:ppk private
+filename:id_rsa or filename:id_dsa
+extension:sql mysql dumpmysql dump

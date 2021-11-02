@@ -1,2 +1,0 @@
-filename:.dockercfg auth
-extension:md
