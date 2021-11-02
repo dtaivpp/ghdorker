@@ -35,7 +35,7 @@ Thank you all for contributing and if you have any questions feel free to reach 
 
 More of documentation for me but here is my process before uploading to PyPi
 ```bash
-pylint *
+pylint GHDorker/*.py
 pytest
 python setup.py sdist bdist_wheel
 twine check dist/*
