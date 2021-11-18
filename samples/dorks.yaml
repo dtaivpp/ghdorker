@@ -1,4 +1,6 @@
 all:
+  test:
+    - extension:md
   identity:
     - filename:.dockercfg auth
     - filename:id_rsa or filename:id_dsa
@@ -20,4 +22,3 @@ all:
       - filename:master.key path:config
     python:
       - filename:settings.py SECRET_KEY
-      - extension:md

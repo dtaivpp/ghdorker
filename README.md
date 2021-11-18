@@ -13,7 +13,7 @@ usage: ghdorker [-h] [-v] [-s {repo,user,org}] [-d DORKS] [--debug] [-o OUTPUT_F
 Search github for github dorks
 
 positional arguments:
-  search                What you would like to search (eg. repo, username, or organization)
+  search                The repo, username, or organization you would like to search
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -21,7 +21,7 @@ optional arguments:
   -s {repo,user,org}, --scope {repo,user,org}
                         The type of GitHub object you would like to search
   -d DORKS, --dorks DORKS
-                        Github dorks file. Eg: github-dorks.txt
+                        Github dorks file. Eg: dorks.txt/.yaml
   --debug               Set this if you would like to see verbose logging.
   -o OUTPUT_FILENAME, --outputFile OUTPUT_FILENAME
                         File to write results to. This overwrites the file provided! Accepts .json or .csv as output file types.
@@ -67,7 +67,53 @@ ghdorker -s repo dtaivpp/NewsTicker -d samples/dorks.yaml --options all.cloud.aw
 
 And finally here is an example of how you could output the results to either a json or csv file.
 ```
-ghdorker -s repo dtaivpp/NewsTicker -d samples/dorks.yaml --options all.cloud -o output.json
+ghdorker -s user dtaivpp -d samples/dorks.yaml --options all.cloud.aws all.test -o output.json
+```
+This is always output to the console:
+```
+2021-11-18 06:47:57,847 - dork: rds.amazonaws.com password user:dtaivpp, repository: dtaivpp/gh-dorker, path: samples/dorks.yaml, score: 1.0
+2021-11-18 06:47:57,848 - dork: rds.amazonaws.com password user:dtaivpp, repository: dtaivpp/gh-dorker, path: README.md, score: 1.0
+2021-11-18 06:48:05,171 - dork: extension:md user:dtaivpp, repository: dtaivpp/dtaivpp, path: README.md, score: 1.0
+2021-11-18 06:48:05,172 - dork: extension:md user:dtaivpp, repository: dtaivpp/gh-dorker, path: CONTRIBUTING.md, score: 1.0
+2021-11-18 06:48:05,172 - dork: extension:md user:dtaivpp, repository: dtaivpp/gh-dorker, path: README.md, score: 1.0
+2021-11-18 06:48:05,172 - dork: extension:md user:dtaivpp, repository: dtaivpp/OpenSearch-Utilization, path: README.md, score: 1.0
+2021-11-18 06:48:05,172 - dork: extension:md user:dtaivpp, repository: dtaivpp/DevOps-Template, path: README.md, score: 1.0
+```
+
+And in addition here is what it looks like as JSON:
+```json
+[
+    {
+        "dork": "rds.amazonaws.com password user:dtaivpp",
+        "repository": "dtaivpp/gh-dorker",
+        "path": "samples/dorks.yaml",
+        "score": 1.0
+    },
+    {
+        "dork": "rds.amazonaws.com password user:dtaivpp",
+        "repository": "dtaivpp/gh-dorker",
+        "path": "README.md",
+        "score": 1.0
+    },
+    {
+        "dork": "extension:md user:dtaivpp",
+        "repository": "dtaivpp/dtaivpp",
+        "path": "README.md",
+        "score": 1.0
+    },
+    {
+        "dork": "extension:md user:dtaivpp",
+        "repository": "dtaivpp/gh-dorker",
+        "path": "CONTRIBUTING.md",
+        "score": 1.0
+    },
+    {
+        "dork": "extension:md user:dtaivpp",
+        "repository": "dtaivpp/gh-dorker",
+        "path": "README.md",
+        "score": 1.0
+    }
+]
 ```
 
 As an aside, rate limiting is already built into the codebase. It will not allow you to make more requests than allowable. GH-Dorker grabs your real rate limits live from GitHub so it will make the maximim amount of requests permittable in a given timeframe.
