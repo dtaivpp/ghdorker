@@ -65,9 +65,8 @@ def output_json_file(data, filename):
 
   logger.debug("Writing JSON File: %s", filename)
   with open(filename, "+w", encoding="UTF-8") as outfile:
-    for entry in data:
-      json.dump(entry, outfile)
-      outfile.write("\n")
+    json.dump(data, outfile, indent = 4)
+
 
 
 def output_csv_file(data, filename):
