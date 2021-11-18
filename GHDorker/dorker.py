@@ -86,7 +86,7 @@ def main(dorks, scope, search, output_filename, debug, input_option='all'):
     logger.debug("Running against dork: %s", query)
     for result in search_results(query, client):
       updated_results = [{"dork": query, **item} for item in result["items"]]
-      map(console_log_ouput, updated_results)
+      for entry in updated_results: console_log_ouput(entry)
       results.extend(updated_results)
 
   formatted_results = output_format(results)
