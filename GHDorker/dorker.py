@@ -105,7 +105,7 @@ def cli_entry():
     '-v',
     '--version',
     action='version',
-    version='%(prog)s 0.3.1')
+    version='%(prog)s 0.3.2')
 
   parser.add_argument(
     '-s',
